@@ -28,7 +28,6 @@ jobs:
       uses: madrapps/jacoco-report@v1.3
       with:
        paths: ${{ github.workspace }}/target/site/jacoco/jacoco.xml
-      env:
-       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       token: ${{ secrets.GITHUB_TOKEN }}
       
 
