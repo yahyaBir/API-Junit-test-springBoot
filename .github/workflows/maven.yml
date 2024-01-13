@@ -1,4 +1,3 @@
-
 name: CI finalProject
 
 on:
@@ -7,14 +6,20 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions: read-all
+
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
     permissions:
+      packages: write
+      deployments: write
+      contents: read
+      actions: read
       pull-requests: 'write'
-      
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
@@ -25,11 +30,15 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B install --file pom.xml
+
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      with:
+        repository: yahyaBir/YGOAfinal
+      
     - name: Coverage
       id: jacoco
       uses: madrapps/jacoco-report@v1.3
       with:
-       paths: ${{ github.workspace }}/target/site/jacoco/jacoco.xml
+       paths: ${{ github.workspace }/target/site/jacoco/jacoco.xml
        token: ${{ secrets.GITHUB_TOKEN }}
-      
-
